@@ -1,0 +1,6 @@
+version: 0.0
+os: linux
+files:
+  - source: /multi-env-vpc/frontend/dist/
+    destination: /home/ec2-user/build/frontend/
+  
