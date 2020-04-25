@@ -22,4 +22,6 @@ phases:
       - echo "current path:$(pwd)"
 artifacts:
   files:
+    - multi-env-vpc/appspec.yml
     - app_build/**/*
+    discard-paths: yes
