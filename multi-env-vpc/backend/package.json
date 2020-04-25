@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "yarn lint && tsc && node dist",
+    "start": "yarn build && node dist",
+    "build": "yarn lint && tsc",
     "lint": "tslint -p .",
     "test": "mocha -r ts-node/register ./**/*.test.ts --exit"
   },
