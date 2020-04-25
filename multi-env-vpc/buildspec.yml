@@ -17,13 +17,15 @@ phases:
   post_build:
     commands:
       - echo "current path:$(pwd)"
-
 artifacts:
-  files:
-    - multi-env-vpc/appspec.yml
-  discard-paths: yes
   secondary-artifacts:
-    frontend-artifacts:
+    artifact1:
+      files:
+        - multi-env-vpc/appspec.yml
+      name: appspec
+      discard-paths: yes
+    artifact2:
       files:
         - multi-env-vpc/frontend/dist/**/*
+      name: frontend-build
       discard-paths: yes
