@@ -9,18 +9,17 @@ phases:
   pre_build:
     commands:
       - echo $CODEBUILD_SRC_DIR
-      - mkdir ./build && mkdir ./build/frontend
+      - mkdir ./app_build && mkdir ./app_build/frontend
       - cd $CODEBUILD_SRC_DIR/multi-env-vpc/frontend
       - yarn
   build:
     commands:
       - yarn build
-      - mv $CODEBUILD_SRC_DIR/multi-env-vpc/frontend/dist/* $CODEBUILD_SRC_DIR/build/frontend/
-      - mv $CODEBUILD_SRC_DIR/multi-env-vpc/appspec.yml $CODEBUILD_SRC_DIR/build
+      - mv $CODEBUILD_SRC_DIR/multi-env-vpc/frontend/dist/* $CODEBUILD_SRC_DIR/app_build/frontend/
+      - mv $CODEBUILD_SRC_DIR/multi-env-vpc/appspec.yml $CODEBUILD_SRC_DIR/app_build
   post_build:
     commands:
       - echo "current path:$(pwd)"
 artifacts:
   files:
-    - build/**/*
-  discard-paths: yes
+    - app_build/**/*
