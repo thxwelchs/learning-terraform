@@ -22,4 +22,9 @@ phases:
 artifacts:
   files:
     - multi-env-vpc/appspec.yml
-    - app_build/frontend/*
+  discard-paths: yes
+  secondary-artifacts:
+    artifacts1:
+      files:
+        - app_build/frontend/**/*
+      name: secondary-artifact-name
