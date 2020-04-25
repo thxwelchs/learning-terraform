@@ -15,16 +15,12 @@ phases:
   build:
     commands:
       - yarn build
-      - mv $CODEBUILD_SRC_DIR/multi-env-vpc/frontend/dist/* $CODEBUILD_SRC_DIR/app_build/frontend/
+      - cp $CODEBUILD_SRC_DIR/multi-env-vpc/frontend/dist/* $CODEBUILD_SRC_DIR/
+      - cp $CODEBUILD_SRC_DIR/multi-env-vpc/appspec.yml $CODEBUILD_SRC_DIR/
   post_build:
     commands:
       - echo "current path:$(pwd)"
 artifacts:
   files:
     - multi-env-vpc/appspec.yml
-  discard-paths: yes
-  secondary-artifacts:
-    artifacts1:
-      files:
-        - app_build/frontend/**/*
-      name: secondary-artifact-name
+    - multi-env-vpc/frontend/dist/**/*
