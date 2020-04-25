@@ -9,10 +9,11 @@ phases:
   pre_build:
     commands:
       - echo $CODEBUILD_SRC_DIR
-      - yarn --cwd ./multi-env-vpc/frontend
+      - cd ./multi-env-vpc/frontend
+      - yarn
   build:
     commands:
-      - yarn build --cwd ./multi-env-vpc/frontend
+      - yarn build
   post_build:
     commands:
       - echo "current path:$(pwd)"
