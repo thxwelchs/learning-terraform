@@ -17,3 +17,8 @@ phases:
   post_build:
     commands:
       - echo "current path:$(pwd)"
+
+artifacts:
+  files:
+    - appspec.yml
+    - multi-env-vpc/frontend/dist/*
