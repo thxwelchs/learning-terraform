@@ -24,4 +24,4 @@ artifacts:
   files:
     - multi-env-vpc/appspec.yml
     - multi-env-vpc/frontend/dist/index.html
-    discard-paths: yes
+  discard-paths: yes
