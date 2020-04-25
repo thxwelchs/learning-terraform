@@ -4,13 +4,15 @@ phases:
   install:
     runtime-versions:
       nodejs: 12
+    commands:
+      - npm install -g yarn
   pre_build:
     commands:
       - echo $CODEBUILD_SRC_DIR
-      - cd ./multi-env-vpc/frontend && npm install
+      - yarn --cwd ./multi-env-vpc/frontend
   build:
     commands:
-      - cd ./multi-env-vpc/frontend && npm run build
+      - yarn build --cwd ./multi-env-vpc/frontend
   post_build:
     commands:
       - echo "current path:$(pwd)"
