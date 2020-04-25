@@ -6,10 +6,11 @@ phases:
       nodejs: 12
   pre_build:
     commands:
-      - cd /multi-env-vpc/frontend && npm install
+      - echo $CODEBUILD_SRC_DIR
+      - cd ./multi-env-vpc/frontend && npm install
   build:
     commands:
-      - cd /multi-env-vpc/frontend && npm run build
+      - cd ./multi-env-vpc/frontend && npm run build
   post_build:
     commands:
       - echo "current path:$(pwd)"
