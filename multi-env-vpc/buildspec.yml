@@ -21,4 +21,9 @@ phases:
 artifacts:
   files:
     - multi-env-vpc/appspec.yml
-    - multi-env-vpc/frontend/dist/**/*
+  discard-paths: yes
+  secondary-artifacts:
+    frontend-artifacts:
+      files:
+        - multi-env-vpc/frontend/dist/**/*
+      discard-paths: yes
