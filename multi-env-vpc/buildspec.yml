@@ -15,8 +15,6 @@ phases:
   build:
     commands:
       - yarn build
-      - cp $CODEBUILD_SRC_DIR/multi-env-vpc/frontend/dist/* $CODEBUILD_SRC_DIR/
-      - cp $CODEBUILD_SRC_DIR/multi-env-vpc/appspec.yml $CODEBUILD_SRC_DIR/
   post_build:
     commands:
       - echo "current path:$(pwd)"
