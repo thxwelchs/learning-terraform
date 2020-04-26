@@ -38,4 +38,16 @@ resource "aws_codedeploy_deployment_group" "this" {
     deployment_option = "WITHOUT_TRAFFIC_CONTROL"
     deployment_type = "IN_PLACE"
   }
+
+  ec2_tag_set {
+    ec2_tag_filter {
+      key = "Name"
+      type = "KEY_AND_VALUE"
+      value = "${var.name}-webserver"
+    }
+  }
+
+  auto_rollback_configuration {
+    enabled = false
+  }
 }
