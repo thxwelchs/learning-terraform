@@ -47,8 +47,8 @@ phases:
         #!/usr/bin/env bash
         FRONTEND_IMAGE_REPO_URL=$FRONTEND_IMAGE_REPO_URL
         BACKEND_IMAGE_REPO_URL=$BACKEND_IMAGE_REPO_URL
-        echo $FRONTEND_IMAGE_REPO_URL
-        echo BACKEND_IMAGE_REPO_URL
+
+        ./deploy.sh '$FRONTEND_IMAGE_REPO_URL' '$BACKEND_IMAGE_REPO_URL'
         EOF
       - echo "[$(date '+%Y-%m-%d %H:%M:%S')] Push Finished"
 artifacts:

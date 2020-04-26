@@ -12,6 +12,6 @@ hooks:
   BeforeInstall:
     - location: scripts/beforeInstall.sh
   ApplicationStart:
-    - location: scripts/deploy.sh
+    - location: scripts/env.sh
       timeout: 60
       runas: ec2-user
