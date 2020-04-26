@@ -8,6 +8,8 @@ phases:
       - npm install -g yarn
   pre_build:
     commands:
+      - echo Logging in to Amazon ECR..
+      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
       - echo $CODEBUILD_SRC_DIR
       - mkdir frontend-dist backend-dist scripts
   build:
@@ -18,23 +20,26 @@ phases:
       - echo "[$(date '+%Y-%m-%d %H:%M:%S')] FRONTEND BUILD START ..."
       - cd $CODEBUILD_SRC_DIR/multi-env-vpc/frontend
       - yarn && yarn build
-      - mv $CODEBUILD_SRC_DIR/multi-env-vpc/frontend/dist/* $CODEBUILD_SRC_DIR/frontend-dist/
+      - docker build -t $ENV_NAME/$FRONTEND_IMAGE_REPO_NAME:latest .
+      # - mv $CODEBUILD_SRC_DIR/multi-env-vpc/frontend/dist/* $CODEBUILD_SRC_DIR/frontend-dist/
       - echo "[$(date '+%Y-%m-%d %H:%M:%S')] FRONTEND BUILD FINISH"
       # backend 빌드
       - echo "[$(date '+%Y-%m-%d %H:%M:%S')] BACKEND BUILD START ..."
       - cd $CODEBUILD_SRC_DIR/multi-env-vpc/backend
-      - yarn && yarn build
-      - echo "[$(date '+%Y-%m-%d %H:%M:%S')] BACKEND BUILD FINISH"
-      - echo "[$(date '+%Y-%m-%d %H:%M:%S')] BACKEND TEST START ..."
-      - yarn test
-      - echo "[$(date '+%Y-%m-%d %H:%M:%S')] BACKEND TEST FINISH"
-      - mv dist node_modules package.json package-lock.json $CODEBUILD_SRC_DIR/backend-dist/
+      - docker build -t $ENV_NAME/$BACKEND_IMAGE_REPO_NAME:latest .
+      # - yarn && yarn build
+#      - echo "[$(date '+%Y-%m-%d %H:%M:%S')] BACKEND BUILD FINISH"
+#      - echo "[$(date '+%Y-%m-%d %H:%M:%S')] BACKEND TEST START ..."
+#      - yarn test
+#      - echo "[$(date '+%Y-%m-%d %H:%M:%S')] BACKEND TEST FINISH"
+#      - mv dist node_modules package.json package-lock.json $CODEBUILD_SRC_DIR/backend-dist/
   post_build:
     commands:
-      - echo "[$(date '+%Y-%m-%d %H:%M:%S')] BUILD FINISH!"
+      - echo "[$(date '+%Y-%m-%d %H:%M:%S')] Pushing docker images to ECR..."
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ENV_NAME/$FRONTEND_IMAGE_REPO_NAME:latest
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ENV_NAME/$BACKEND_IMAGE_REPO_NAME:latest
+      - echo "[$(date '+%Y-%m-%d %H:%M:%S')] Push Finished"
 artifacts:
   files:
     - appspec.yml
     - scripts/**/*
-    - frontend-dist/**/*
-    - backend-dist/**/*
