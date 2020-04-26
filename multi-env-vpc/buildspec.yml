@@ -20,13 +20,13 @@ phases:
       - echo "[$(date '+%Y-%m-%d %H:%M:%S')] FRONTEND BUILD START ..."
       - cd $CODEBUILD_SRC_DIR/multi-env-vpc/frontend
       - yarn && yarn build
-      - docker build -t $ENV_NAME/$FRONTEND_IMAGE_REPO_NAME:latest .
+      - docker build -t $FRONTEND_IMAGE_REPO_URL:latest .
       # - mv $CODEBUILD_SRC_DIR/multi-env-vpc/frontend/dist/* $CODEBUILD_SRC_DIR/frontend-dist/
       - echo "[$(date '+%Y-%m-%d %H:%M:%S')] FRONTEND BUILD FINISH"
       # backend 빌드
       - echo "[$(date '+%Y-%m-%d %H:%M:%S')] BACKEND BUILD START ..."
       - cd $CODEBUILD_SRC_DIR/multi-env-vpc/backend
-      - docker build -t $ENV_NAME/$BACKEND_IMAGE_REPO_NAME:latest .
+      - docker build -t $BACKEND_IMAGE_REPO_URL:latest .
       # - yarn && yarn build
 #      - echo "[$(date '+%Y-%m-%d %H:%M:%S')] BACKEND BUILD FINISH"
 #      - echo "[$(date '+%Y-%m-%d %H:%M:%S')] BACKEND TEST START ..."
@@ -36,8 +36,8 @@ phases:
   post_build:
     commands:
       - echo "[$(date '+%Y-%m-%d %H:%M:%S')] Pushing docker images to ECR..."
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ENV_NAME/$FRONTEND_IMAGE_REPO_NAME:latest
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ENV_NAME/$BACKEND_IMAGE_REPO_NAME:latest
+      - docker push $FRONTEND_IMAGE_REPO_URL:latest
+      - docker push $BACKEND_IMAGE_REPO_URL:latest
       - echo "[$(date '+%Y-%m-%d %H:%M:%S')] Push Finished"
 artifacts:
   files:
