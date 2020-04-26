@@ -42,6 +42,11 @@ phases:
       - echo "[$(date '+%Y-%m-%d %H:%M:%S')] Pushing docker images to ECR..."
       - docker push $FRONTEND_IMAGE_REPO_URL:latest
       - docker push $BACKEND_IMAGE_REPO_URL:latest
+      - cat << EOF > $CODEBUILD_SRC_DIR/scripts/env.sh |
+        #!/usr/bin/env bash |
+        FRONTEND_IMAGE_REPO_URL=$FRONTEND_IMAGE_REPO_URL
+        BACKEND_IMAGE_REPO_URL=$BACKEND_IMAGE_REPO_URL
+        EOF
       - echo "[$(date '+%Y-%m-%d %H:%M:%S')] Push Finished"
 artifacts:
   files:
