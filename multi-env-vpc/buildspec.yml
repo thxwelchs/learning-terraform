@@ -6,6 +6,10 @@ phases:
 #      nodejs: 12
 #    commands:
 #      - npm install -g yarn
+  install:
+    commands:
+      - apt-get update && apt-get install --no-install-recommends -y curl
+      - curl -sL https://deb.nodesource.com/setup_12.x | bash - && apt-get update && apt-get install -y nodejs
   pre_build:
     commands:
       - echo Logging in to Amazon ECR..
@@ -19,7 +23,7 @@ phases:
       # frontend 빌드
       - echo "[$(date '+%Y-%m-%d %H:%M:%S')] FRONTEND BUILD START ..."
       - cd $CODEBUILD_SRC_DIR/multi-env-vpc/frontend
-      # - yarn && yarn build
+      - npm install && npm run build
       - docker build -t $FRONTEND_IMAGE_REPO_URL:latest .
       # - mv $CODEBUILD_SRC_DIR/multi-env-vpc/frontend/dist/* $CODEBUILD_SRC_DIR/frontend-dist/
       - echo "[$(date '+%Y-%m-%d %H:%M:%S')] FRONTEND BUILD FINISH"
