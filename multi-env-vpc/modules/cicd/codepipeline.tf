@@ -20,7 +20,7 @@ resource "aws_codepipeline" "this" {
       configuration = {
         Owner                = "thxwelchs"
         Repo                 = "learning-terraform"
-        PollForSourceChanges = "true"
+        PollForSourceChanges = "false"
         Branch               = var.name == "prod" ? "master" : var.name
         OAuthToken           = data.aws_ssm_parameter.github_token.value
       }

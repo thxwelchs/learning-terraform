@@ -10,6 +10,7 @@ resource "aws_iam_role" "codebuild_role" {
       "Principal": {
         "Service": [
           "codebuild.amazonaws.com",
+          "codedeploy.amazonaws.com",
           "codepipeline.amazonaws.com",
           "s3.amazonaws.com"
         ]
