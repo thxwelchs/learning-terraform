@@ -42,8 +42,8 @@ phases:
       - echo "[$(date '+%Y-%m-%d %H:%M:%S')] Pushing docker images to ECR..."
       - docker push $FRONTEND_IMAGE_REPO_URL:latest
       - docker push $BACKEND_IMAGE_REPO_URL:latest
-      - sed -i 's/FRONTEND_IMAGE_REPO_URL=.*/FRONTEND_IMAGE_REPO_URL="'$FRONTEND_IMAGE_REPO_URL'"/' $CODEBUILD_SRC_DIR/scripts/deploy.sh
-      - sed -i 's/BACKEND_IMAGE_REPO_URL=.*/BACKEND_IMAGE_REPO_URL="'$BACKEND_IMAGE_REPO_URL'"/' $CODEBUILD_SRC_DIR/scripts/deploy.sh
+      - sed -i 's/FRONTEND_IMAGE_REPO_URL=.*/FRONTEND_IMAGE_REPO_URL='$FRONTEND_IMAGE_REPO_URL'/' $CODEBUILD_SRC_DIR/scripts/deploy.sh
+      - sed -i 's/BACKEND_IMAGE_REPO_URL=.*/BACKEND_IMAGE_REPO_URL='$BACKEND_IMAGE_REPO_URL'/' $CODEBUILD_SRC_DIR/scripts/deploy.sh
       - echo "[$(date '+%Y-%m-%d %H:%M:%S')] Push Finished"
 artifacts:
   files:
