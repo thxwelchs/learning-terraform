@@ -9,10 +9,11 @@ phases:
   pre_build:
     commands:
       - echo $CODEBUILD_SRC_DIR
-      - mkdir ./frontend-dist && mkdir ./backend-dist
+      - mkdir frontend-dist backend-dist scripts
   build:
     commands:
       - mv $CODEBUILD_SRC_DIR/multi-env-vpc/appspec.yml $CODEBUILD_SRC_DIR/
+      - mv $CODEBUILD_SRC_DIR/multi-env-vpc/scripts/* $CODEBUILD_SRC_DIR/scripts/
       # frontend 빌드
       - echo "[$(date '+%Y-%m-%d %H:%M:%S')] FRONTEND BUILD START ..."
       - cd $CODEBUILD_SRC_DIR/multi-env-vpc/frontend
@@ -34,5 +35,6 @@ phases:
 artifacts:
   files:
     - appspec.yml
+    - scripts/**/*
     - frontend-dist/**/*
     - backend-dist/**/*
