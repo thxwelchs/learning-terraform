@@ -1,3 +1,5 @@
+data "aws_region" "current" {}
+
 resource "aws_codebuild_project" "project" {
   name          = "${var.name}-ci"
   description   = "${var.name} CodeBuild Project"
@@ -11,6 +13,11 @@ resource "aws_codebuild_project" "project" {
     environment_variable {
       name = "ENV_NAME"
       value = var.name
+    }
+
+    environment_variable {
+      name = "AWS_DEFAULT_REGION"
+      value = data.aws_region.current.name
     }
 
     environment_variable {
