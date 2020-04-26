@@ -58,8 +58,6 @@ resource "aws_codepipeline" "this" {
       }
     }
   }
-
-
 }
 
 data "aws_ssm_parameter" "github_token" {
