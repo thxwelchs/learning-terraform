@@ -51,7 +51,8 @@ resource "aws_iam_policy" "codebuild_policy" {
           "rds:DescribeDBInstances",
           "route53:*",
           "s3:*",
-          "codedeploy:*"
+          "codedeploy:*",
+          "ecr:*"
         ]
       },
     ]
