@@ -24,11 +24,11 @@ phases:
       - echo "[$(date '+%Y-%m-%d %H:%M:%S')] BACKEND BUILD START ..."
       - cd $CODEBUILD_SRC_DIR/multi-env-vpc/backend
       - yarn && yarn build
-      - mv $CODEBUILD_SRC_DIR/multi-env-vpc/backend/dist/* $CODEBUILD_SRC_DIR/backend-dist/
       - echo "[$(date '+%Y-%m-%d %H:%M:%S')] BACKEND BUILD FINISH"
       - echo "[$(date '+%Y-%m-%d %H:%M:%S')] BACKEND TEST START ..."
       - yarn test
       - echo "[$(date '+%Y-%m-%d %H:%M:%S')] BACKEND TEST FINISH"
+      - mv dist node_modules package.json package-lock.json $CODEBUILD_SRC_DIR/backend-dist/
   post_build:
     commands:
       - echo "[$(date '+%Y-%m-%d %H:%M:%S')] BUILD FINISH!"

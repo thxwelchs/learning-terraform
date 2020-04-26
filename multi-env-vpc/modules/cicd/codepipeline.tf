@@ -18,8 +18,8 @@ resource "aws_codepipeline" "this" {
       output_artifacts = ["SourceArtifact"]
 
       configuration = {
-        Owner                = "thxwelchs"
-        Repo                 = "learning-terraform"
+        Owner                = var.github_ower
+        Repo                 = var.github_repo
         PollForSourceChanges = "false"
         Branch               = var.name == "prod" ? "master" : var.name
         OAuthToken           = data.aws_ssm_parameter.github_token.value
