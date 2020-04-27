@@ -45,8 +45,8 @@ phases:
       - echo "[$(date '+%Y-%m-%d %H:%M:%S')] Push Finished"
       - echo Writing image definitions file...
       - cd $CODEBUILD_SRC_DIR
-      - printf '[{"name":"dev/frontend","imageUri":"%s"}]' "${FRONTEND_IMAGE_REPO_URL}:latest" | tee imagedefinitions-frontend.json
-      - printf '[{"name":"dev/backend","imageUri":"%s"}]' "${BACKEND_IMAGE_REPO_URL}:latest" | tee imagedefinitions-backend.json
+      - printf '[{"name":"frontend","imageUri":"%s"}]' "${FRONTEND_IMAGE_REPO_URL}:latest" | tee imagedefinitions-frontend.json
+      - printf '[{"name":"backend","imageUri":"%s"}]' "${BACKEND_IMAGE_REPO_URL}:latest" | tee imagedefinitions-backend.json
 artifacts:
   files:
     - imagedefinitions-frontend.json
