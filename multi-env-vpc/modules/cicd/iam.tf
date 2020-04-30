@@ -119,6 +119,7 @@ resource "aws_iam_policy" "codepipeline_policy" {
           "ecs:*",
           "ecr:DescribeImages",
           "ec2:*",
+          "ecr:DescribeImages",
           "servicecatalog:DescribeProvisioningArtifact",
           "codebuild:StartBuild",
           "codedeploy:GetApplication",

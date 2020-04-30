@@ -45,16 +45,32 @@ resource "aws_codepipeline" "this" {
 
   stage {
     name = "Deploy"
+
     action {
-      name = "Deploy"
+      name = "Frontend-Deploy"
       category = "Deploy"
       owner = "AWS"
-      provider = "CodeDeploy"
+      provider = "ECS"
       input_artifacts = ["BuildArtifact"]
       version = "1"
       configuration = {
-        ApplicationName = aws_codedeploy_app.this.name
-        DeploymentGroupName = aws_codedeploy_deployment_group.this.deployment_group_name
+        ClusterName = var.ecs_cluster_name
+        FileName = "imagedefinitions-frontend.json"
+        ServiceName = var.ecs_frontend_service_name
+      }
+    }
+
+    action {
+      name = "Backend-Deploy"
+      category = "Deploy"
+      owner = "AWS"
+      provider = "ECS"
+      input_artifacts = ["BuildArtifact"]
+      version = "1"
+      configuration = {
+        ClusterName = var.ecs_cluster_name
+        FileName = "imagedefinitions-backend.json"
+        ServiceName = var.ecs_backend_service_name
       }
     }
   }

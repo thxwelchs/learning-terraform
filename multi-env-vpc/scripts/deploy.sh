@@ -17,7 +17,7 @@ BACKEND_IMAGE_REPO_URL=$2
 
 
 # ecr login
-$(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+$(aws ecr get-login --no-include-email --region ap-northeast-2)
 
 # frontend deploy
 if [ $FRONTEND_IMAGE_REPO_URL != "" ]; then
