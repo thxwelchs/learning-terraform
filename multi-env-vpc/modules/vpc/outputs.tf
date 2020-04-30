@@ -31,6 +31,10 @@ output "public_subnets_ids" {
   value = [aws_subnet.public.*.id]
 }
 
+# az list
+output "az_list" {
+  value = var.az_list
+}
 
 # route tables
 output "public_route_table_ids" {
