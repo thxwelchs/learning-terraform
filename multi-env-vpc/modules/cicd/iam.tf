@@ -33,7 +33,11 @@ resource "aws_iam_policy" "codebuild_policy" {
     Statement: [
       {
         Effect: "Allow",
-        Action: "logs:*",
+        Action: [
+          "logs:*",
+          "s3:*",
+          "servicecatalog:*",
+        ],
         Resource: "*"
       },
       {
