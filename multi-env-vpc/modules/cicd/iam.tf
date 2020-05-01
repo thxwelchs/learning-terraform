@@ -9,7 +9,10 @@ resource "aws_iam_role" "codebuild_role" {
       "Effect": "Allow",
       "Principal": {
         "Service": [
-          "codebuild.amazonaws.com"
+          "codebuild.amazonaws.com",
+          "codedeploy.amazonaws.com",
+          "codepipeline.amazonaws.com",
+          "s3.amazonaws.com"
         ]
       },
       "Action": "sts:AssumeRole"
@@ -28,6 +31,11 @@ resource "aws_iam_policy" "codebuild_policy" {
   policy = jsonencode({
     Version: "2012-10-17",
     Statement: [
+      {
+        Effect: "Allow",
+        Action: "logs:*",
+        Resource: "*"
+      },
       {
         Effect: "Allow",
         Resource: aws_codebuild_project.project.id
