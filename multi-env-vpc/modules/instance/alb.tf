@@ -1,6 +1,6 @@
 resource "aws_alb" "this" {
   name = "${var.name}-alb"
-  security_groups = [aws_security_group.web_public_sg.id]
+  security_groups = [aws_security_group.alb_web_public_sg.id]
   //  subnets = concat(var.public_subnets, var.private_subnets)
   subnets = var.public_subnets
 

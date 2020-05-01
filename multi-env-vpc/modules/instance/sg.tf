@@ -2,10 +2,35 @@ data "http" "myip" {
   url = "http://ipv4.icanhazip.com"
 }
 
-# public SG (22, 443, 80 인바운드 허용)
-resource "aws_security_group" "web_public_sg" {
-  name = "web-public-sg"
-  description = "web-public-sg"
+
+resource "aws_security_group" "instance_public_sg" {
+  name = "instance-public-sg"
+  description = "instance-public-sg"
+  vpc_id = var.vpc_id
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_security_group_rule" "only-instance-public-sg-ingress-rule" {
+  description = "only-instance-public-sg-ingress-rule"
+  from_port = 0
+  protocol = "-1"
+  security_group_id = aws_security_group.instance_public_sg.id
+  source_security_group_id = aws_security_group.alb_web_public_sg.id
+  to_port = 0
+  type = "ingress"
+}
+
+
+# public SG (22, 443, 80 인바운드 허용) ALB에 적용
+resource "aws_security_group" "alb_web_public_sg" {
+  name = "alb-web-public-sg"
+  description = "alb-web-public-sg"
   vpc_id = var.vpc_id
 
   ingress {
@@ -39,10 +64,10 @@ resource "aws_security_group" "web_public_sg" {
 }
 
 # private SG public SG로부터만 인바운드 허용
-resource "aws_security_group" "private_sg" {
+resource "aws_security_group" "instance_private_sg" {
   vpc_id = var.vpc_id
-  description = "private-sg"
-  name = "private-sg"
+  description = "instance-private-sg"
+  name = "instance-private-sg"
 
   egress {
     from_port   = 0
@@ -56,8 +81,8 @@ resource "aws_security_group_rule" "only-public-sg-ingress-rule" {
   description = "only-public-sg-ingress-rule"
   from_port = 0
   protocol = "-1"
-  security_group_id = aws_security_group.private_sg.id
-  source_security_group_id = aws_security_group.web_public_sg.id
+  security_group_id = aws_security_group.instance_private_sg.id
+  source_security_group_id = aws_security_group.instance_public_sg.id
   to_port = 0
   type = "ingress"
 }

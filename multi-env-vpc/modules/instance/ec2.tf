@@ -10,7 +10,7 @@ resource "aws_instance" "public" {
   ami = "ami-01288945bd24ed49a"
   instance_type = "t2.micro"
   key_name = aws_key_pair.dev-instance-key.key_name
-  vpc_security_group_ids = [aws_security_group.web_public_sg.id]
+  vpc_security_group_ids = [aws_security_group.instance_public_sg.id]
   availability_zone = var.az_list[count.index]
   subnet_id = var.public_subnets[count.index]
   associate_public_ip_address = true
@@ -52,7 +52,7 @@ resource "aws_instance" "private" {
   ami = "ami-01288945bd24ed49a"
   instance_type = "t2.micro"
   key_name = aws_key_pair.dev-instance-key.key_name
-  vpc_security_group_ids = [aws_security_group.private_sg.id]
+  vpc_security_group_ids = [aws_security_group.instance_private_sg.id]
   availability_zone = var.az_list[count.index]
   subnet_id = var.private_subnets[count.index]
   iam_instance_profile = aws_iam_instance_profile.ec2-instance-profile.name
