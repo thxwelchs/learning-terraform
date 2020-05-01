@@ -61,5 +61,5 @@ resource "aws_codepipeline" "this" {
 }
 
 data "aws_ssm_parameter" "github_token" {
-  name = "github_token"
+  name = "github_new_token"
 }

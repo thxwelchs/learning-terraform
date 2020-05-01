@@ -37,6 +37,7 @@ resource "aws_iam_policy" "codebuild_policy" {
           "logs:*",
           "s3:*",
           "servicecatalog:*",
+          "ecr:*"
         ],
         Resource: "*"
       },
