@@ -24,11 +24,11 @@ output "igw_id" {
 
 # subnets
 output "private_subnets_ids" {
-  value = [aws_subnet.private.*.id]
+  value = aws_subnet.private.*.id
 }
 
 output "public_subnets_ids" {
-  value = [aws_subnet.public.*.id]
+  value = aws_subnet.public.*.id
 }
 
 # az list
@@ -38,11 +38,11 @@ output "az_list" {
 
 # route tables
 output "public_route_table_ids" {
-  value = [aws_route_table.this_public_rt.*.id]
+  value = aws_route_table.this_public_rt.*.id
 }
 
 output "private_route_table_ids" {
-  value = [aws_route_table.this_private_rt.*.id]
+  value = aws_route_table.this_private_rt.*.id
 }
 
 # NAT gateway

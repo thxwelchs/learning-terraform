@@ -12,12 +12,18 @@ resource "aws_instance" "public" {
   vpc_security_group_ids = [aws_security_group.web_public_sg.id]
   availability_zone = var.az_list[count.index]
   subnet_id = var.public_subnets[count.index]
+  associate_public_ip_address = true
+  iam_instance_profile = ""
 
   user_data = <<EOF
-sudo amazon-linux-extras install docker -y
-sudo usermod -aG docker ec2-user
-sudo systemctl enable docker
-sudo systemctl start docker
+#cloud-config
+
+packages:
+ - docker
+
+runcmd:
+ - [ sh, -c, "usermod -aG docker ec2-user" ]
+ - service docker start
   EOF
 
   tags = {
@@ -34,12 +40,17 @@ resource "aws_instance" "private" {
   vpc_security_group_ids = [aws_security_group.private_sg.id]
   availability_zone = var.az_list[count.index]
   subnet_id = var.private_subnets[count.index]
+  iam_instance_profile = ""
 
   user_data = <<EOF
-sudo amazon-linux-extras install docker -y
-sudo usermod -aG docker ec2-user
-sudo systemctl enable docker
-sudo systemctl start docker
+#cloud-config
+
+packages:
+ - docker
+
+runcmd:
+ - [ sh, -c, "usermod -aG docker ec2-user" ]
+ - service docker start
   EOF
 
   tags = {

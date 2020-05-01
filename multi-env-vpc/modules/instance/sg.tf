@@ -29,6 +29,13 @@ resource "aws_security_group" "web_public_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
 }
 
 # private SG public SG로부터만 인바운드 허용
@@ -36,6 +43,13 @@ resource "aws_security_group" "private_sg" {
   vpc_id = var.vpc_id
   description = "private-sg"
   name = "${var.name}-private-sg"
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 resource "aws_security_group_rule" "only-public-sg-ingress-rule" {
