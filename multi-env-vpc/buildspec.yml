@@ -49,5 +49,5 @@ phases:
       - printf '[{"name":"backend","imageUri":"%s"}]' "${BACKEND_IMAGE_REPO_URL}:latest" | tee imagedefinitions-backend.json
 artifacts:
   files:
-    - imagedefinitions-frontend.json
-    - imagedefinitions-backend.json
+    - appspec.yml
+    - scripts/*

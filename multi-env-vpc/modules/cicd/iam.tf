@@ -9,10 +9,7 @@ resource "aws_iam_role" "codebuild_role" {
       "Effect": "Allow",
       "Principal": {
         "Service": [
-          "codebuild.amazonaws.com",
-          "codedeploy.amazonaws.com",
-          "codepipeline.amazonaws.com",
-          "s3.amazonaws.com"
+          "codebuild.amazonaws.com"
         ]
       },
       "Action": "sts:AssumeRole"
@@ -33,14 +30,7 @@ resource "aws_iam_policy" "codebuild_policy" {
     Statement: [
       {
         Effect: "Allow",
-        Action: "codebuild:*",
         Resource: aws_codebuild_project.project.id
-      },
-      {
-        Effect: "Allow",
-        Resource: [
-          "*"
-        ],
         Action: [
           "autoscaling:*",
           "codebuild:*",

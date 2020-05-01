@@ -4,7 +4,8 @@ resource "aws_key_pair" "dev-instance-key" {
 }
 
 resource "aws_instance" "public" {
-  count = length(var.public_subnets)
+//  count = length(var.public_subnets)
+  count = 1
 
   ami = "ami-01288945bd24ed49a"
   instance_type = "t2.micro"
@@ -25,12 +26,13 @@ runcmd:
  - [ sh, -c, "usermod -aG docker ec2-user" ]
  - [ sh, -c, "usermod -aG docker ssm-user" ]
  - service docker start
+ - yum install jq -y
  - systemctl enable docker
  - echo 'export ENV_MODE=${var.name}' > ~/my_env.sh
- - echo 'export AWS_DEFAULT_REGION=ap-northeast-2' >> ~/my_env.sh
+ - echo '{\"ENV_MODE\":\"${var.name}\",\"DEPLOY_TYPE\":\"frontend\"}' > ~/my_env.json
  - chmod +x ~/my_env.sh
  - cp ~/my_env.sh /etc/profile.d/my_env.sh
- - source /etc/profile.d/my_env.sh
+ - cp ~/my_env.json /etc/profile.d/my_env.json
   EOF
 
   tags = {
@@ -39,7 +41,8 @@ runcmd:
 }
 
 resource "aws_instance" "private" {
-  count = length(var.private_subnets)
+  count = 1
+//  count = length(var.private_subnets)
 
   ami = "ami-01288945bd24ed49a"
   instance_type = "t2.micro"
@@ -59,12 +62,13 @@ runcmd:
  - [ sh, -c, "usermod -aG docker ec2-user" ]
  - [ sh, -c, "usermod -aG docker ssm-user" ]
  - service docker start
+ - yum install jq -y
  - systemctl enable docker
  - echo 'export ENV_MODE=${var.name}' > ~/my_env.sh
- - echo 'export AWS_DEFAULT_REGION=ap-northeast-2' >> ~/my_env.sh
+ - echo '{\"ENV_MODE\":\"${var.name}\",\"DEPLOY_TYPE\":\"backend\"}' > ~/my_env.json
  - chmod +x ~/my_env.sh
  - cp ~/my_env.sh /etc/profile.d/my_env.sh
- - source /etc/profile.d/my_env.sh
+ - cp ~/my_env.json /etc/profile.d/my_env.json
   EOF
 
   tags = {
