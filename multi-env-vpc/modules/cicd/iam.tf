@@ -125,7 +125,8 @@ resource "aws_iam_policy" "codepipeline_policy" {
           "servicecatalog:DescribeProvisioningArtifact",
           "codebuild:StartBuild",
           "codedeploy:GetApplication",
-          "cloudformation:ValidateTemplate"
+          "cloudformation:ValidateTemplate",
+          "logs:*"
         ],
         Resource: "*"
       },

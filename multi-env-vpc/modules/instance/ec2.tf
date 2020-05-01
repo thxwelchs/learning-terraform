@@ -26,10 +26,13 @@ runcmd:
  - [ sh, -c, "usermod -aG docker ec2-user" ]
  - [ sh, -c, "usermod -aG docker ssm-user" ]
  - service docker start
- - yum install jq -y
+ - yum install -y jq ruby aws-cli
  - systemctl enable docker
+ - wget https://aws-codedeploy-ap-northeast-2.s3.ap-northeast-2.amazonaws.com/latest/install
+ - chmod +x ./install
+ - ./install auto
  - echo 'export ENV_MODE=${var.name}' > ~/my_env.sh
- - echo '{\"ENV_MODE\":\"${var.name}\",\"DEPLOY_TYPE\":\"frontend\"}' > ~/my_env.json
+ - echo '{"ENV_MODE":"${var.name}","DEPLOY_TYPE":"frontend"}' > ~/my_env.json
  - chmod +x ~/my_env.sh
  - cp ~/my_env.sh /etc/profile.d/my_env.sh
  - cp ~/my_env.json /etc/profile.d/my_env.json
@@ -62,10 +65,13 @@ runcmd:
  - [ sh, -c, "usermod -aG docker ec2-user" ]
  - [ sh, -c, "usermod -aG docker ssm-user" ]
  - service docker start
- - yum install jq -y
+ - yum install -y jq ruby aws-cli
  - systemctl enable docker
+ - wget https://aws-codedeploy-ap-northeast-2.s3.ap-northeast-2.amazonaws.com/latest/install
+ - chmod +x ./install
+ - ./install auto
  - echo 'export ENV_MODE=${var.name}' > ~/my_env.sh
- - echo '{\"ENV_MODE\":\"${var.name}\",\"DEPLOY_TYPE\":\"backend\"}' > ~/my_env.json
+ - echo '{"ENV_MODE":"${var.name}","DEPLOY_TYPE":"backend"}' > ~/my_env.json
  - chmod +x ~/my_env.sh
  - cp ~/my_env.sh /etc/profile.d/my_env.sh
  - cp ~/my_env.json /etc/profile.d/my_env.json
