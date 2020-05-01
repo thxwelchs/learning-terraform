@@ -43,7 +43,13 @@ resource "aws_codedeploy_deployment_group" "this" {
     ec2_tag_filter {
       key = "Name"
       type = "KEY_AND_VALUE"
-      value = "${var.name}-webserver"
+      value = "${var.name}-public-instance"
+    }
+
+    ec2_tag_filter {
+      key = "Name"
+      type = "KEY_AND_VALUE"
+      value = "${var.name}-private-instance"
     }
   }
 

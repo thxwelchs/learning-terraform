@@ -5,7 +5,7 @@ data "http" "myip" {
 # public SG (22, 443, 80 인바운드 허용)
 resource "aws_security_group" "web_public_sg" {
   name = "web-public-sg"
-  description = "ecs_dynamic-mapping-sg"
+  description = "web-public-sg"
   vpc_id = var.vpc_id
 
   ingress {
@@ -42,7 +42,7 @@ resource "aws_security_group" "web_public_sg" {
 resource "aws_security_group" "private_sg" {
   vpc_id = var.vpc_id
   description = "private-sg"
-  name = "${var.name}-private-sg"
+  name = "private-sg"
 
   egress {
     from_port   = 0

@@ -19,20 +19,18 @@ BACKEND_IMAGE_REPO_URL=$2
 # ecr login
 $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
 
-# frontend deploy
-if [ $FRONTEND_IMAGE_REPO_URL != "" ]; then
-  sudo docker pull $FRONTEND_IMAGE_REPO_URL:latest
+# get repo url
+IMAGE_REPO_URL=$(aws ssm get-parameters-by-path --path /dev | jq ' .Parameters | .[] | select(.Name=="/'${ENV_MODE}'/'${DEPLOY_TYPE}'_repo_url") | .Value' --raw-output)
 
-  killContainer frontend
+# deploy
+if [ $DEPLOY_TYPE != "" ]; then
+  sudo docker pull $IMAGE_REPO_URL:latest
 
-  sudo docker run -d -p 3030:80 --name frontend $FRONTEND_IMAGE_REPO_URL:latest
-fi
+  killContainer $DEPLOY_TYPE
 
-# backend deploy
-if [ $BACKEND_IMAGE_REPO_URL != "" ]; then
-  sudo docker pull $BACKEND_IMAGE_REPO_URL:latest
-
-  killContainer backend
-
-  sudo docker run -d -p 8080:8080 --name backend $BACKEND_IMAGE_REPO_URL:latest
+  if [ $DEPLOY_TYPE = "backend" ]; then
+      sudo docker run -d -p 8080:8080 --name $DEPLOY_TYPE $IMAGE_REPO_URL:latest
+  elif [ $DEPLOY_TYPE = "frontend" ]; then
+      sudo docker run -d -p 3030:80 --name $DEPLOY_TYPE $IMAGE_REPO_URL:latest
+  fi
 fi

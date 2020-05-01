@@ -2,16 +2,16 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/build/
+    destination: /home/ssm-user/build/
 permissions:
   - object: /
     pattern: "**"
-    owner: ec2-user
-    group: ec2-user
+    owner: ssm-user
+    group: ssm-user
 hooks:
   BeforeInstall:
     - location: scripts/beforeInstall.sh
   ApplicationStart:
     - location: scripts/env.sh
       timeout: 60
-      runas: ec2-user
+      runas: ssm-user
