@@ -31,6 +31,7 @@ runcmd:
  - wget https://aws-codedeploy-ap-northeast-2.s3.ap-northeast-2.amazonaws.com/latest/install
  - chmod +x ./install
  - ./install auto
+ - mkdir ~/.aws && printf "[default]\nregion=ap-rnotheast-2" > ~/.aws/config
  - echo 'export ENV_MODE=${var.name}' > ~/my_env.sh
  - echo '{"ENV_MODE":"${var.name}","DEPLOY_TYPE":"frontend"}' > ~/my_env.json
  - chmod +x ~/my_env.sh
@@ -70,6 +71,7 @@ runcmd:
  - wget https://aws-codedeploy-ap-northeast-2.s3.ap-northeast-2.amazonaws.com/latest/install
  - chmod +x ./install
  - ./install auto
+ - mkdir ~/.aws && printf "[default]\nregion=ap-rnotheast-2" > ~/.aws/config
  - echo 'export ENV_MODE=${var.name}' > ~/my_env.sh
  - echo '{"ENV_MODE":"${var.name}","DEPLOY_TYPE":"backend"}' > ~/my_env.json
  - chmod +x ~/my_env.sh

@@ -16,8 +16,8 @@ function killContainer () {
 $(aws ecr get-login --no-include-email --region ap-northeast-2)
 
 # get repo url
-ENV_MODE=$(echo /etc/profile.d/my_env.json | jq .ENV_MODE --raw-output)
-DEPLOY_TYPE=$(echo /etc/profile.d/my_env.json | jq .DEPLOY_TYPE --raw-output)
+ENV_MODE=$(cat /etc/profile.d/my_env.json | jq .ENV_MODE --raw-output)
+DEPLOY_TYPE=$(cat /etc/profile.d/my_env.json | jq .DEPLOY_TYPE --raw-output)
 IMAGE_REPO_URL=$(aws ssm get-parameters-by-path --path /dev | jq ' .Parameters | .[] | select(.Name=="/'${ENV_MODE}'/'${DEPLOY_TYPE}'_repo_url") | .Value' --raw-output)
 
 # deploy
