@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>Hello world My name is LEETAEHUN123123</h1>
+    <h1>Hello world My name is LEETAEHUNzzz</h1>
     <router-link to="/healthz">Go to healthcheck</router-link>
   </div>
 </template>
