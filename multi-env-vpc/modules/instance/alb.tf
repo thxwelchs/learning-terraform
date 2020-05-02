@@ -1,14 +1,18 @@
+data "aws_s3_bucket" "bucket" {
+  bucket = var.s3_bucket
+}
+
 resource "aws_alb" "this" {
   name = "${var.name}-alb"
   security_groups = [aws_security_group.alb_web_public_sg.id]
   //  subnets = concat(var.public_subnets, var.private_subnets)
   subnets = var.public_subnets
 
-//  access_logs {
-//    bucket = var.s3_bucket
-//    prefix = "logs"
-//    enabled = true
-//  }
+  access_logs {
+    bucket = data.aws_s3_bucket.bucket.bucket
+    prefix = "logs"
+    enabled = true
+  }
 
   tags = {
     Name = "${var.name}-alb"
