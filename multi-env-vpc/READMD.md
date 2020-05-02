@@ -1,3 +1,4 @@
+[source code link](https://github.com/thxwelchs/learning-terraform/tree/master/multi-env-vpc)
 ### 초기화
 aws credentials는 aws provider 규칙에 맞게 설정 (환경변수 혹은 ~/.aws/credentials 작성)
 
