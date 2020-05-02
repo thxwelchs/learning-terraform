@@ -11,3 +11,7 @@ output "ecr_backend_repo_url" {
 output "ecr_frontend_repo_url" {
   value = aws_ecr_repository.frontend.repository_url
 }
+
+output "s3_bucket" {
+  value = aws_s3_bucket.this.bucket
+}

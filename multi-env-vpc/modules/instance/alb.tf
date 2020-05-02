@@ -4,16 +4,21 @@ resource "aws_alb" "this" {
   //  subnets = concat(var.public_subnets, var.private_subnets)
   subnets = var.public_subnets
 
+//  access_logs {
+//    bucket = var.s3_bucket
+//    prefix = "logs"
+//    enabled = true
+//  }
+
   tags = {
     Name = "${var.name}-alb"
   }
 }
 
 resource "aws_alb_target_group" "frontend_tg" {
-  count = 2
-  name = "${var.name}-frontend-tg${count.index == 1 ? "-ssl" : ""}"
-  port = count.index == 1 ? "443" : "80"
-  protocol = count.index == 1 ? "HTTPS" : "HTTP"
+  name = "${var.name}-frontend-tg"
+  port = "80"
+  protocol = "HTTP"
   vpc_id = var.vpc_id
 
   health_check {
@@ -25,19 +30,18 @@ resource "aws_alb_target_group" "frontend_tg" {
     timeout = 5
     enabled = true
     port = "traffic-port"
-    protocol = count.index == 1 ? "HTTPS" : "HTTP"
+    protocol = "HTTP"
   }
 
   tags = {
-    Name = "${var.name}-frontend-tg${count.index == 1 ? "-ssl" : ""}"
+    Name = "${var.name}-frontend-tg"
   }
 }
 
 resource "aws_alb_target_group" "backend_tg" {
-  count = 2
-  name = "${var.name}-backend-tg${count.index == 1 ? "-ssl" : ""}"
-  port = count.index == 1 ? "443" : "80"
-  protocol = count.index == 1 ? "HTTPS" : "HTTP"
+  name = "${var.name}-backend-tg"
+  port = "80"
+  protocol = "HTTP"
   vpc_id = var.vpc_id
 
   health_check {
@@ -49,13 +53,13 @@ resource "aws_alb_target_group" "backend_tg" {
     timeout = 5
     enabled = true
     port = "traffic-port"
-    protocol = count.index == 1 ? "HTTPS" : "HTTP"
+    protocol = "HTTP"
   }
 
   depends_on = [aws_alb.this]
 
   tags = {
-    Name = "${var.name}-ecs-backend-tg${count.index == 1 ? "-ssl" : ""}"
+    Name = "${var.name}-ecs-backend-tg"
   }
 }
 
@@ -66,7 +70,7 @@ resource "aws_alb_listener" "alb-listener" {
 
   default_action {
     type = "forward"
-    target_group_arn = aws_alb_target_group.frontend_tg[0].arn
+    target_group_arn = aws_alb_target_group.frontend_tg.arn
   }
 }
 
@@ -79,16 +83,16 @@ resource "aws_alb_listener" "alb-listener-ssl" {
 
   default_action {
     type = "forward"
-    target_group_arn = aws_alb_target_group.frontend_tg[1].arn
+    target_group_arn = aws_alb_target_group.frontend_tg.arn
   }
 }
 
 resource "aws_alb_listener_rule" "alb-frontend-rule" {
-  count = length(aws_alb_target_group.frontend_tg)
+  count = 2
   listener_arn = count.index == 0 ? aws_alb_listener.alb-listener.arn : aws_alb_listener.alb-listener-ssl.arn
   action {
     type = "forward"
-    target_group_arn = aws_alb_target_group.frontend_tg[count.index].arn
+    target_group_arn = aws_alb_target_group.frontend_tg.arn
   }
 
   condition {
@@ -99,11 +103,11 @@ resource "aws_alb_listener_rule" "alb-frontend-rule" {
 }
 
 resource "aws_alb_listener_rule" "alb-backend-rule" {
-  count = length(aws_alb_target_group.backend_tg)
+  count = 2
   listener_arn = count.index == 0 ? aws_alb_listener.alb-listener.arn : aws_alb_listener.alb-listener-ssl.arn
   action {
     type = "forward"
-    target_group_arn = aws_alb_target_group.backend_tg[count.index].arn
+    target_group_arn = aws_alb_target_group.backend_tg.arn
   }
 
   condition {
@@ -121,29 +125,16 @@ resource "aws_alb_listener_rule" "alb-backend-rule" {
 
 resource "aws_alb_target_group_attachment" "frontend_tg_attachment" {
   count = length(aws_instance.public)
-  target_group_arn = aws_alb_target_group.frontend_tg[0].arn
+  target_group_arn = aws_alb_target_group.frontend_tg.arn
   target_id = aws_instance.public[count.index].id
   port = 3030
 }
 
 resource "aws_alb_target_group_attachment" "backend_tg_attachment" {
   count = length(aws_instance.private)
-  target_group_arn = aws_alb_target_group.backend_tg[0].arn
+  target_group_arn = aws_alb_target_group.backend_tg.arn
   target_id = aws_instance.private[count.index].id
   port = 8080
 }
 
-resource "aws_alb_target_group_attachment" "frontend_tg_attachment_ssl" {
-  count = length(aws_instance.public)
-  target_group_arn = aws_alb_target_group.frontend_tg[1].arn
-  target_id = aws_instance.public[count.index].id
-  port = 3030
-}
-
-resource "aws_alb_target_group_attachment" "backend_tg_attachment_ssl" {
-  count = length(aws_instance.private)
-  target_group_arn = aws_alb_target_group.backend_tg[1].arn
-  target_id = aws_instance.private[count.index].id
-  port = 8080
-}
 

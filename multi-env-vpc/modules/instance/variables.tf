@@ -36,3 +36,7 @@ variable "dns" {
   type = string
   default = "welchs.cf"
 }
+
+variable "s3_bucket" {
+
+}
