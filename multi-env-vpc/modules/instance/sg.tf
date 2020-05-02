@@ -77,8 +77,18 @@ resource "aws_security_group" "instance_private_sg" {
   }
 }
 
-resource "aws_security_group_rule" "only-public-sg-ingress-rule" {
-  description = "only-public-sg-ingress-rule"
+resource "aws_security_group_rule" "private-sg-only-alb-ingress-rule" {
+  description = "private-sg-only-alb-ingress-rule"
+  from_port = 0
+  protocol = "-1"
+  security_group_id = aws_security_group.instance_private_sg.id
+  source_security_group_id = aws_security_group.alb_web_public_sg.id
+  to_port = 0
+  type = "ingress"
+}
+
+resource "aws_security_group_rule" "private-sg-only-public-instance-ingress-rule" {
+  description = "private-sg-only-public-instance-ingress-rule"
   from_port = 0
   protocol = "-1"
   security_group_id = aws_security_group.instance_private_sg.id

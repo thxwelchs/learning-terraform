@@ -31,3 +31,8 @@ variable "ec2_instance_iam_policies" {
     "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   ]
 }
+
+variable "dns" {
+  type = string
+  default = "welchs.cf"
+}
