@@ -29,7 +29,7 @@ public subnet과 private subnet에 각 한대씩 ec2 배치
 - public subnet instance: Vue.js SPA 웹애플리케이션이 nginx (docker)로 배포되어 있음
 - private subnet instance: Node.js Rest API가 pm2 (docker)로 배포되어 있음
 
-![data-pipeline](https://user-images.githubusercontent.com/38197077/80860876-b1480100-8ca5-11ea-8fde-a684fbad096b.jpg){: width="60%" height="60%"}
+![data-pipeline](https://user-images.githubusercontent.com/38197077/80860876-b1480100-8ca5-11ea-8fde-a684fbad096b.jpg)
 
 
 *이슈 혹은 느낀점*
